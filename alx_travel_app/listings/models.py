@@ -57,4 +57,4 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Review for {self.booking.listing.title} by {self.booking.guest.username}" 
+        return f"Review for {self.booking.listing.title} by {self.booking.guest.username}"
