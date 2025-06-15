@@ -11,9 +11,13 @@ env = environ.Env(
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-development-key-123')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DEBUG', default=True)
+
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '[::1]'])
 
 # Application definition
 INSTALLED_APPS = [
@@ -26,7 +30,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'drf_yasg',
-    'listings',
+    'alx_travel_app.listings.apps.ListingsConfig',
 ]
 
 MIDDLEWARE = [
@@ -63,12 +67,12 @@ WSGI_APPLICATION = 'alx_travel_app.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': env('SQL_ENGINE', default='django.db.backends.mysql'),
-        'NAME': env('SQL_DATABASE'),
-        'USER': env('SQL_USER'),
-        'PASSWORD': env('SQL_PASSWORD'),
-        'HOST': env('SQL_HOST', default='localhost'),
-        'PORT': env('SQL_PORT', default='3306'),
+        'ENGINE': env('SQL_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': env('SQL_DATABASE', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': env('SQL_USER', default=''),
+        'PASSWORD': env('SQL_PASSWORD', default=''),
+        'HOST': env('SQL_HOST', default=''),
+        'PORT': env('SQL_PORT', default=''),
     }
 }
 
