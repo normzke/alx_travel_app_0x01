@@ -19,6 +19,9 @@ DEBUG = env('DEBUG', default=True)
 
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '[::1]'])
 
+# Base URL for the application (used in payment callbacks)
+BASE_URL = env('BASE_URL', default='http://localhost:8000')
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -117,4 +120,30 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Celery Configuration (for future use)
-CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://localhost') 
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='amqp://localhost')
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+} 
